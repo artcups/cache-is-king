@@ -16,6 +16,10 @@ services:
             - db_data:/var/lib/mysql
         networks:
             - webnet
+    redis:
+        image: "redis:alpine"
+        networks:
+            - webnet
     api:
         restart: always
         ports:
@@ -24,6 +28,8 @@ services:
             dockerfile: Dockerfile
             context: .
         environment:
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
             MYSQL_HOST: db
             MYSQL_USER: user
             MYSQL_PASSWORD: secret
@@ -32,6 +38,7 @@ services:
         command: node src/server.js
         depends_on:
             - db
+            - redis
         volumes:
             - .:/home/node/app
         networks:
