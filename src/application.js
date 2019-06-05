@@ -45,6 +45,23 @@ app.init = async function init({ dbcon }) {
     res.status(200).json(cleared);
   });
 
+  app.get("/book/nocache", async (req, res, next) => {
+    let result = await dbcon.query("SELECT * FROM Book");
+    const book = result[0];
+    const chapters = await dbcon.query(
+      "SELECT * FROM Chapter WHERE BookId=" + book.Id
+    );
+    for (chapter of chapters) {
+      let result = await dbcon.query(
+        "SELECT * FROM Page WHERE ChapterId=" + chapter.Id
+      );
+      chapter["pages"] = result;
+    }
+
+    book["chapters"] = chapters;
+    res.status(200).json(book);
+  });
+
   app.use(express.static("public"));
 };
 
