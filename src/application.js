@@ -3,6 +3,7 @@ const app = express();
 
 app.init = async function init({dbcon}) {
 
+
     app.get("/", (req, res, next) => {
         res.status(200).send("Hello, i am superfast server");
     });
@@ -20,6 +21,8 @@ app.init = async function init({dbcon}) {
         book["chapters"] = chapters;
         res.status(200).json(book);
     });
+    
+    app.use(express.static('public'))
 };
 
 module.exports = app;
