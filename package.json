@@ -9,7 +9,7 @@
         "security:check": "nsp check"
     },
     "dependencies": {
-        "async": "2.5.0",
+        "async": "3.2.2",
         "express": "4.16.2",
         "mysql": "^2.17.1"
     }
